@@ -1,0 +1,77 @@
+
+Resource:
+book/books{
+    	id: azonosito
+    	name: név
+    	species: állatfaj
+}
+banana/bananas{
+    	id: azonosito
+		name: név
+		colors: szín
+		sweet: t/f
+		monkeyId: majom azonositoja
+}
+
+--MONKEY--
+
+GET/monkey            - összes majom lekérése
+GET/monkey/:id        - egy majom lekérése
+POST/monkey           - egy majom létrehozása
+{
+	name: név
+	species: állatfaj
+}
+DELETE/monkey/:id     - egy majom törlése
+PATCH/monkey/:id      - egy majom módosítása
+{
+	name: név
+	species: állatfaj
+}
+POST/search           - majom kérése
+{
+	search: "bármi"
+}
+
+
+--BANANA--
+
+GET/banana            - összes banán lekérése
+GET/banana/:id        - egy banán lekérése
+POST/banana           - egy banán létrehozása
+{
+	name: név
+	colors: szín
+	sweet: t/f
+	monkeyId: majom azonositoja
+}
+DELETE/banana/:id     - egy banán törlése
+PATCH/banana/:id      - egy banán módosítása
+{
+	name: név
+	colors: szín
+	sweet: t/f
+	monkeyId: majom azonositoja
+}
+POST/search           - banán kérése
+{
+search: "bármi"
+}
+
+Minden egyéb kérés....
+
+1. 	checkMonkexId: monkeyId ellenorzese banan post és patch előtt. 
+	Csak létező majom id-oz rendelhetünk banánt.
+	A bananban a monkeyId lehet szám vagy null értéke is.
+	Ezt építsd be a mw láncba: 
+	-a kérés bodyba nem egész számot adtak meg [!Number.IsInteger]
+		-error:.....
+	-a kérés bodyba nincs megadva mondeyid vagy null 
+		-nincs mit ellenőrizni -> return next();
+	-kérés bodyba létező monkeyid-t adtak át 
+		-res.localsban eltároljuk inedexet/id-t és ezután next()
+
+2. 	checkMonkeyBananId: majom DELETE-en, a hozzá tartozó banánt 
+	(banánon belül monkeyId töröljük el) 
+	MIT ELLENÖRIZZ? - checkMonkeyId... és ezután 
+	-csak filterezd ki id alapján a banánt
